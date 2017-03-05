@@ -46,7 +46,7 @@ fi
 mkdir -p /opt/ssh-phone-home
 cd /opt/ssh-phone-home
 
-echo "CNC_IP=$CNC_IP" >> /opt/ssh-phone-home/config
+echo "CNC_IP=$CNC_IP" > /opt/ssh-phone-home/config
 echo "CNC_PORT=$CNC_PORT" >> /opt/ssh-phone-home/config
 echo "DBUSER=$DBUSER" >> /opt/ssh-phone-home/config
 echo "DBPORT=$DBPORT" >> /opt/ssh-phone-home/config
