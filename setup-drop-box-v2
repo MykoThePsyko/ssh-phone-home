@@ -8,6 +8,11 @@ if [ "$CNC_IP" == "" ] ; then
     CNC_IP=10.100.2.132
 fi
 
+read -p "CNC PORT: " CNC_PORT 
+if [ "$CNC_PORT" == "" ] ; then
+    CNC_IP=443
+fi
+
 echo "
 The drop box will have its own user account on the CNC server for connecting
 back to the CNC's SSH server. Each drop box should have its own unique
@@ -42,14 +47,14 @@ mkdir -p /opt/ssh-phone-home
 cd /opt/ssh-phone-home
 
 echo "CNC_IP=$CNC_IP" >> /opt/ssh-phone-home/config
+echo "CNC_PORT=$CNC_PORT" >> /opt/ssh-phone-home/config
 echo "DBUSER=$DBUSER" >> /opt/ssh-phone-home/config
 echo "DBPORT=$DBPORT" >> /opt/ssh-phone-home/config
 
 
 # Copy ssh key from CNC 
 echo "Connecting to CNC as $ADMIN to copy ssh keys..."
-scp $ADMIN@$CNC_IP:/home/$DBUSER/.ssh/id_rsa ./
-
+scp -P $CNC_PORT $ADMIN@$CNC_IP:/home/$DBUSER/.ssh/id_rsa ./
 
 ## Setup the local SSH server for connections from C&C ##
 
@@ -69,9 +74,10 @@ update-rc.d ssh enable
 # Start the SSH service now
 service ssh start
 
-
 ## Create a cron job to phone home every 5 seconds ##
-echo "*/5 *  * * *  root  /opt/ssh-phone-home/phone-home.sh" >> /etc/crontab
+if ! grep phone-home.sh /etc/crontab ; then
+   echo "*/5 *  * * *  root  /opt/ssh-phone-home/phone-home.sh" >> /etc/crontab
+fi
 
 ## Phone home at boot ##
 mv /etc/rc.local /etc/rc.local.$(ls /etc/rc.local* | wc -l)
