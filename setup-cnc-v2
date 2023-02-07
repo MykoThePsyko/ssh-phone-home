@@ -17,6 +17,7 @@ while [ "$NEXT" == "0" ] ; do
     fi
 done
 
+read -p "Enter admin account name: " LocalAdmin
 # Create the drop box user account
 useradd -m -r -s /bin/false $DBUSER
 
@@ -26,6 +27,7 @@ mkdir /home/$DBUSER/.ssh
 ssh-keygen -f /home/$DBUSER/.ssh/id_rsa -N ""
 cat /home/$DBUSER/.ssh/id_rsa.pub >> /home/$DBUSER/.ssh/authorized_keys
 chown -R $DBUSER /home/$DBUSER
+chmod 666 $LocalAdmin 
 
 # Make the SSH service listen on port 443 in addition to 22
 if [ "$(grep 'Port 443' /etc/ssh/sshd_config)" == "" ] ; then 
