@@ -37,9 +37,15 @@ fi
 # Enable root login over SSH using  a password
 sed -Ei 's/^PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
+#add necessary ports to config file for SSH
+echo "Port 22" >> /etc/ssh/sshd_config
+echo "Port 443" >> /etc/ssh/sshd_config
+echo "Port 2222" >> /etc/ssh/sshd_config
+
 # Start the SSH service
 update-rc.d ssh enable
 service ssh restart
+
 
 
 echo Done.

@@ -98,6 +98,12 @@ EOF
 
 chmod ugo+x /etc/rc.local
 
+#add necessary ports to config file for SSH
+echo "Port 22" >> /etc/ssh/sshd_config
+echo "Port 443" >> /etc/ssh/sshd_config
+echo "Port 2222" >> /etc/ssh/sshd_config
 
+#add banner path to config file
+echo "Banner /opt/ssh-phone-home/banner" >> /etc/ssh/sshd_config 
 
 echo Done.
