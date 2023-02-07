@@ -3,6 +3,12 @@
 ### SETUP DROP BOX ###
 
 # Prompt user for all setup information
+read -p "Local account that this device will be using [root]: "
+if [ "$LocalUser" == "" ] ; then
+    LocalUser=root
+fi
+
+
 read -p "CNC IP or hostname: " CNC_IP 
 if [ "$CNC_IP" == "" ] ; then
     CNC_IP=10.100.2.132
@@ -46,6 +52,7 @@ fi
 mkdir -p /opt/ssh-phone-home
 cd /opt/ssh-phone-home
 
+echo "LocalUser=$LocalUser" > /opt/ssh-phone-home/config
 echo "CNC_IP=$CNC_IP" > /opt/ssh-phone-home/config
 echo "CNC_PORT=$CNC_PORT" >> /opt/ssh-phone-home/config
 echo "DBUSER=$DBUSER" >> /opt/ssh-phone-home/config
@@ -54,6 +61,7 @@ echo "DBPORT=$DBPORT" >> /opt/ssh-phone-home/config
 
 # Copy ssh key from CNC 
 echo "Connecting to CNC as $ADMIN to copy ssh keys..."
+chown -R $LocalUser /opt/ssh-phone-home
 scp -P $CNC_PORT $ADMIN@$CNC_IP:/home/$DBUSER/.ssh/id_rsa ./
 
 ## Setup the local SSH server for connections from C&C ##
@@ -95,5 +103,9 @@ EOF
 
 chmod ugo+x /etc/rc.local
 
+# installs cron and creates 5 minute job to phone home
+sudo apt install cron
+echo "*/5 * * * * /opt/ssh-phone-home/phone-home.sh" >> /opt/ssh-phone-home/PhoneHomeCronJob
+crontab /opt/ssh-phone-home/PhoneHomeCronJob
 
 echo Done.
