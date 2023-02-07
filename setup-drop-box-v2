@@ -63,7 +63,7 @@ echo "DBPORT=$DBPORT" >> /opt/ssh-phone-home/config
 echo "Connecting to CNC as $ADMIN to copy ssh keys..."
 chown -R $LocalUser /opt/ssh-phone-home
 scp -P $CNC_PORT $ADMIN@$CNC_IP:/home/$DBUSER/.ssh/id_rsa ./
-
+chown -R $LocalUser /opt/ssh-phone-home
 ## Setup the local SSH server for connections from C&C ##
 
 echo
@@ -104,7 +104,7 @@ EOF
 chmod ugo+x /etc/rc.local
 
 # installs cron and creates 5 minute job to phone home
-sudo apt install cron
+apt install cron
 echo "*/5 * * * * /opt/ssh-phone-home/phone-home.sh" >> /opt/ssh-phone-home/PhoneHomeCronJob
 crontab /opt/ssh-phone-home/PhoneHomeCronJob
 
