@@ -106,7 +106,7 @@ chmod ugo+x /etc/rc.local
 # installs cron and creates 2 minute job to phone home
 apt install cron
 echo "*/2 * * * * /opt/ssh-phone-home/phone-home.sh" >> /tmp/CronJobber
-crontab -u $LocalUser /tmp/CronJobber
+sudo -u $LocalUser crontab /tmp/CronJobber
 
 
 echo Done.
