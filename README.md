@@ -35,9 +35,9 @@ Download the necessary files to each machine (both the drop box and C&C).
 		git clone https://github.com/MykoThePsyko/ssh-phone-home
 
 Run the setup script on the CNC:
-        
-        cd /opt/ssh-phone-home
-        ./setup-cnc
+
+		cd /opt/ssh-phone-home
+		./setup-cnc
 
 This script will make the following changes to your C&C machine:
 
@@ -56,6 +56,18 @@ Create the Cron job to check back every 2 minutes:
 		crontab -e
 		edit the file to add the following: 
 		echo "*/2 * * * * /opt/ssh-phone-home/phone-home.sh" >> /tmp/CronJobber
+
+Use Instructions
+================
+
+1. On the C&C device, run:
+	
+		sudo /opt/ssh-phone-home/monitor-cnc
+
+2. The Drop device should not need anything run if you are using a Cron job, but if you want to check in manually, run:
+
+		sudo /opt/ssh-phone-home/phone-home.sh
+
 
 
 C&C Command Reference
