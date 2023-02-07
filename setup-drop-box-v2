@@ -82,9 +82,9 @@ update-rc.d ssh enable
 # Start the SSH service now
 service ssh start
 
-## Create a cron job to phone home every 5 seconds ##
+## Create a cron job to phone home every 2 seconds ##
 if ! grep phone-home.sh /etc/crontab ; then
-   echo "*/5 *  * * *  root  /opt/ssh-phone-home/phone-home.sh" >> /etc/crontab
+   echo "*/2 *  * * *  $LocalUser /opt/ssh-phone-home/phone-home.sh" >> /etc/crontab
 fi
 
 ## Phone home at boot ##
@@ -103,10 +103,10 @@ EOF
 
 chmod ugo+x /etc/rc.local
 
-# installs cron and creates 5 minute job to phone home
-apt install cron
-echo "*/2 * * * * /opt/ssh-phone-home/phone-home.sh" >> /opt/ssh-phone-home/PhoneHomeCronJob
-crontab -u $LocalUser /opt/ssh-phone-home/PhoneHomeCronJob
+# installs cron and creates 2 minute job to phone home
+#apt install cron
+#echo "*/2 * * * * /opt/ssh-phone-home/phone-home.sh" >> /opt/ssh-phone-home/PhoneHomeCronJob
+#crontab -u $LocalUser /opt/ssh-phone-home/PhoneHomeCronJob
 
 
 echo Done.
