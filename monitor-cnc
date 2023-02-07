@@ -1,2 +1,2 @@
 #!/bin/bash
-watch 'netstat -antp | grep "sshd: " '
+watch 'netstat -antp | grep ":443.\+ESTABLISHED.\+/sshd"'
