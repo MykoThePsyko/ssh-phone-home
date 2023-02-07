@@ -14,8 +14,12 @@ through the reverse tunnel and wreak havoc on... er... pentest the target
 network. =P
 
 By default, the drop box will attempt an outgoing SSH connection to port 443
-every 5 minutes.
+every 2 minutes with the use of Cron.
 
+Prerequisites
+=============
+ssh
+cron
 
 Install Instructions
 ====================
@@ -23,17 +27,17 @@ Install Kali on your main computer (C&C), and your drop box (the one you will
 leave plugged in to the target network). As always, be sure to change the root
 password on both machines so that it is not the default.
 
-*All scripts should be run as root on both machines.*
+*Run the "setup" scripts as root*
 
 Download the necessary files to each machine (both the drop box and C&C).
 
 		cd /opt
-		git clone https://github.com/Wh1t3Rh1n0/ssh-phone-home
+		git clone https://github.com/MykoThePsyko/ssh-phone-home
 
 Run the setup script on the CNC:
         
         cd /opt/ssh-phone-home
-        ./setup-cnc-v2
+        ./setup-cnc
 
 This script will make the following changes to your C&C machine:
 
@@ -45,7 +49,12 @@ This script will make the following changes to your C&C machine:
 Run the setup script on the drop box:
 		
 		cd /opt/ssh-phone-home
-		./setup-drop-box-v2
+		./setup-drop-box
+
+Create the Cron job to check back every 2 minutes:
+		crontab -e
+		edit the file to add the following: 
+		echo "*/2 * * * * /opt/ssh-phone-home/phone-home.sh" >> /tmp/CronJobber
 
 
 C&C Command Reference
