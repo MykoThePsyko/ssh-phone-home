@@ -55,7 +55,7 @@ Create the Cron job to check back every 2 minutes:
 
 		crontab -e
 		edit the file to add the following: 
-		echo "*/2 * * * * /opt/ssh-phone-home/phone-home.sh" >> /tmp/CronJobber
+		*/2 * * * * /opt/ssh-phone-home/phone-home.sh
 
 Use Instructions
 ================
